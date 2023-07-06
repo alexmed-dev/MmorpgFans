@@ -1,0 +1,28 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Добавить отклик на обявление
+{% endblock title %}
+
+{% block content %}
+<h1>Добавить отклик на обявление {{ advert.title }}</h1>
+<br>
+{{ advert.dateTimeCreate|date:'d M Y h:m' }}
+<br>
+{{ advert.text }}
+<hr>
+
+<!-- <form method="POST" action="/advertisements/{{ advert.id }}/add_respond/"> -->
+<form method="POST">
+    {% csrf_token %} 
+    {{ form }}
+    <br>
+    <input type="submit" value="Добавить отклик">
+</form>
+<br>
+<br>
+{% for respond in responds %}
+{{ respond.text }} {{ respond.accept }} если пользователь=автор=>ссылка на удаление + ссылка на принять (если еще не приянта)
+<br>
+{% endfor %}
+{% endblock content %}

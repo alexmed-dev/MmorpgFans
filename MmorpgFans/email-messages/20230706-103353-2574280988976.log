@@ -1,0 +1,33 @@
+Content-Type: multipart/alternative;
+ boundary="===============5903832872569421748=="
+MIME-Version: 1.0
+Subject: 
+ =?utf-8?b?0JLQsNGIINC+0YLQutC70LjQuiDQvdCwINC+0LHRitGP0LLQu9C10L3QuNC1INC/?=
+ =?utf-8?b?0YDQuNC90Y/Rgi4=?=
+From: appsndmail@yandex.ru
+To: admin@games.com
+Date: Thu, 06 Jul 2023 06:33:53 -0000
+Message-ID: <168862523302.12984.13420479686631783642@Acer>
+
+--===============5903832872569421748==
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новый отклик</title>
+</head>
+<body>
+    <h2>Здравствуй, admin!</h2>
+    Принят ваш отклик на объявление <a href="http://127.0.0.1:8000/advertisements/17">Мое алфрдж</a>.
+    <p> Ваш отклик: </p>
+    <p> wwwwwwwwwwwwww </p>
+</body>
+</html>
+--===============5903832872569421748==--
+
+-------------------------------------------------------------------------------

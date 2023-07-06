@@ -1,0 +1,46 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Объявление
+{% endblock title %}
+
+{% block page_heading %}
+{{ advert.title }}
+{% endblock page_heading %}
+
+{% block page_subheading %}
+{{ advert.dateTimeCreate|date:'d M Y h:m' }} {{ advert.get_postType_display }} {{ advert.author }}
+<hr class="my-4" />
+редактирование
+{% endblock page_subheading %}
+
+{% block page_level %}
+post-heading
+{% endblock page_level %}
+
+
+{% block content %}
+<h1>{{ advert.title }}</h1>
+<!-- {{ limit }} -->
+
+{% if messages %}
+{% for message in messages %}
+    {{ message }}
+    <br>
+{% endfor %}
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %} 
+    
+    <p class="post-meta">
+        <label for="id_title">Название:</label>
+        {{ form.title }} <label for="id_category"> Категория:</label> {{ form.category }}
+    </p>
+    {{ form.text }}
+    <hr class="my-4" />
+    {{ form.author.as_hidden }}
+    
+    <input class="btn btn-primary text-uppercase" type="submit" value="Сохранить объявление">
+</form>
+{% endblock content %}

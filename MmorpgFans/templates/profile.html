@@ -1,0 +1,94 @@
+{% extends 'default.html' %}
+
+
+{% block title %}
+Страница авторизованного пользователя
+{% endblock title %}
+
+
+{% block page_heading %}
+Отклики
+{% endblock page_heading %}
+
+
+{% block page_subheading %}
+Страница авторизованного пользователя
+<div>{{request.user.username}}</div>
+{% endblock page_subheading %}
+
+{% block page_level %}
+page-heading
+{% endblock page_level %}
+
+{% block content %}
+<form method="GET">
+    <!-- Автор отклика: {{ filter.form.author }}  -->
+    
+    <p class="post-meta">
+        Название объявления: {{ filter.form.advert }}
+    </p>
+    <p class="post-meta">
+        Текст отклика: {{ filter.form.text__icontains }}
+        <input class="btn btn-primary text-uppercase" type="submit" value="Найти">
+    </p>
+</form>
+
+<!-- my_responds=>{{ my_responds.count }}
+filter.qs=>{{ filter.qs.count }} -->
+{% if filter.qs %}
+    <p class="post-meta">
+        <h5>Найдено {{ filter.qs.count }} отклика на ваши объявления:</h5>
+    </p>
+    <hr class="my-4" />
+    <!-- {% for respond in my_responds %}
+    {% endfor %} -->
+    <table>
+        <tr>
+            <td>
+                Заголовок объявления
+            </td>
+            <td>
+                Автор октлика
+            </td>
+            <td>
+                Текст отклика
+            </td>
+            <td>
+                Принят
+            </td>
+            <td>
+                Удаление
+            </td>
+        </tr>
+    {% for respond in filter.qs %}
+        <tr>
+            <td>
+                {{respond.advert.title}}
+            </td>
+            <td>
+                ({{respond.author}})
+            </td>
+            <td>
+                {{respond.text}}
+            </td>
+            <td>
+                <p class="post-meta">
+                    {% if not respond.accept %} <a href="/advertisements/accept_respond/{{ respond.id }}/advert/{{ respond.advert.id }}/"> принять </a> {% else %} принят {% endif %}
+                </p>
+            </td>
+            <td>
+                <p class="post-meta">
+                    <a href="/advertisements/{{ respond.advert.id }}/delete_respond/{{ respond.id }}"> удалить </a>
+                </p>
+            </td>
+        </tr>
+         
+    {% endfor %}
+    </table>
+{% else %}
+<h5>Ничего не найдено. Имзените параметры отбора.</h5>
+{% endif %}
+
+<br>
+
+{% endblock content %}

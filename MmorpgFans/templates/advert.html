@@ -1,0 +1,64 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Объявление {{ advert.title }}
+{% endblock title %}
+
+{% block page_heading %}
+{{ advert.title }}
+{% endblock page_heading %}
+
+{% block page_subheading %}
+{{ advert.dateTimeCreate|date:'d M Y h:m' }} {{ advert.get_postType_display }} {{ advert.author }}
+{% endblock page_subheading %}
+
+{% block page_level %}
+post-heading
+{% endblock page_level %}
+
+{% block content %}
+    {{ advert.text|safe }}
+<hr class="my-4" />
+{% if user.is_authenticated %}
+    {% if user.id == advert.author.id %}
+        <p class="post-meta">
+            <a href="/advertisements/{{ advert.id }}/edit">редактировать</a>
+        </p>
+    {% else %}
+        <h3>Добавить отклик на обявление</h3>
+        <br>
+        {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+                <br>
+            {% endfor %}
+            <a class="btn btn-primary text-uppercase" href="/advertisements/{{ advert.id }}"> понятно</a>
+        {% else %}
+            <form method="POST">
+                <!-- <div class="form-floating"> -->
+                {% csrf_token %}
+                <p class="post-meta">
+                    {{ form.text|safe }}
+                </p>
+                {{ form.accept.as_hidden }}
+                {{ form.advert.as_hidden }}
+                <input class="btn btn-primary text-uppercase" type="submit" value="Добавить отклик">
+                <hr class="my-4" />
+                <!-- </div> -->
+            </form>
+        {% endif %}
+    {% endif %}
+{% else %}
+    <a href="/accounts/login">Войдите</a>, чтобы оставить отклик.
+{% endif %}
+<h2 class="subheading">Отклики:</h2>
+{% for respond in responds %}
+<p class="post-meta">
+    {{ respond.text }} {{ respond.accept }}
+</p>
+<p class="post-meta">
+    {{ respond.author }} {{ respond.dateTimeCreate|date:'d M Y h:m' }}
+</p>
+<hr class="my-4" />
+{% endfor %}
+{% endblock content %}

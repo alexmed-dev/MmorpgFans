@@ -1,0 +1,31 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Выход" %}{% endblock %}
+
+{% block page_heading %}
+Выход
+{% endblock page_heading %}
+
+{% block page_subheading %}
+Подтвердите выход с сайта
+{% endblock page_subheading %}
+
+{% block page_level %}
+post-heading
+{% endblock page_level %}
+
+{% block content %}
+<h1>{% trans "Вы уверены, что хотите выйти?" %}</h1>
+
+<form method="post" action="{% url 'account_logout' %}">
+  {% csrf_token %}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+  {% endif %}
+  <button class="btn btn-primary text-uppercase" type="submit">{% trans 'Выйти' %}</button>
+</form>
+
+
+{% endblock %}

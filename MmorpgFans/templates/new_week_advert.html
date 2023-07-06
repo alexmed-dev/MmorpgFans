@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новые объявления в Игромании</title>
+</head>
+<body>
+    <h2>Здравствуй, {{ user.username }}!</h2>
+    {% if adverts %}
+        <h3>Новые объявления за прошедшую неделю:</h3>
+        {% for advert in adverts %}
+            <a href="http://127.0.0.1:8000/advertisements/{{ advert.id }}">
+                {{advert.title}}
+            </a>
+            {{ advert.text|truncatechars:50 }}
+            <br>
+        {% endfor %}
+    {% else %}
+    <h3>Нет новых объявлений за прошедшую неделю</h3>
+    {% endif %}
+</body>
+</html>

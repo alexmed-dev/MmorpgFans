@@ -1,0 +1,91 @@
+{% extends 'default.html' %}
+
+
+{% block title %}
+Моя Игромания
+{% endblock title %}
+
+{% block page_heading %}
+Моя Игромания
+{% endblock page_heading %}
+
+
+{% block page_subheading %}
+Объявления нашей игромании
+<hr class="my-4" />
+    {% if  adverts %} <!-- Выводим статьи только если они есть с помощью тега if -->
+        {% if is_paginated %}
+        всего объявлений: {{ page_obj.paginator.count }}
+        {% else %}
+        всего объявлений: {{ adverts|length }}
+        {% endif %}
+    {% endif %}
+{% endblock page_subheading %}
+
+{% block page_level %}
+site-heading
+{% endblock page_level %}
+
+
+
+{% block content %}
+    {% if  adverts %} <!-- Выводим статьи только если они есть с помощью тега if -->
+        {% for advert in adverts %}
+        <div class="post-preview">
+            <a href="/advertisements/{{ advert.id }}">
+                <h2 class="post-title">{{ advert.title }}</h2>
+                <h3 class="post-subtitle">{{ advert.preview|safe }}</h3>
+            </a>
+            <p class="post-meta">
+                Опубликовано: {{ advert.author }} {{ advert.dateTimeCreate|date:'d M Y h:m' }}
+            </p>
+            <!-- только для автора: -->
+            {% if user.is_authenticated %}
+                {% if user.id == advert.author.id %}
+                <p class="post-meta">
+                    <a href="/advertisements/{{ advert.id }}/edit">редактировать</a>
+                </p>
+                {% endif %}                
+            {% endif %}
+        </div>
+        <hr class="my-4" />
+        {% endfor %}
+
+        <!-- Проверяем что поддерживается постраничный вывод -->
+        {% if is_paginated %}
+            <!-- Если доступна предыдущая страница, то даём ссылку на неё и самую первую страницу -->
+            {% if page_obj.has_previous %}
+                <a class="btn btn-primary text-uppercase" href="?page=1">First</a>
+                <a class="btn btn-primary text-uppercase" href="?page={{ page_obj.previous_page_number }}"><<<</a>
+            {% endif %}
+
+            <!-- Показываем только текущую страницу и ближайшие к ней, чтобы список не тянулся и не захламлял страницу -->
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <a class="btn btn-primary text-uppercase">{{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a class="btn btn-primary text-uppercase" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            <!-- Если есть следующая страница, то даём ссылку на неё и на самую последнюю страницу -->
+            {% if page_obj.has_next %}
+                <a class="btn btn-primary text-uppercase" href="?page={{ page_obj.next_page_number }}">>>></a>
+                <a class="btn btn-primary text-uppercase" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% endif %}
+
+        {% endif %}
+
+    {% else %} <!-- Если статей нет, то говорим что статей нет ;) -->
+        <h2>Объявлений нет!</h2>
+    {% endif %}
+        
+    <!-- только для авторизованных -->
+    {% if user.is_authenticated %}
+    <hr class="my-4" />
+    <div class="d-flex justify-content-end mb-4">
+        <a class="btn btn-primary text-uppercase" href="add">Добавить объявление →</a>
+    </div>
+    {% endif %}
+
+{% endblock content %}

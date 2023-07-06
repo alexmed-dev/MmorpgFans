@@ -1,0 +1,45 @@
+{% load i18n %}
+
+{% extends 'default.html' %}
+
+
+{% block title %}
+Моя Игромания
+{% endblock title %}
+
+{% block page_heading %}
+Моя Игромания
+{% endblock page_heading %}
+
+
+{% if messages %}
+<div>
+  <strong>{% trans "Messages:" %}</strong>
+  <ul>
+    {% for message in messages %}
+    <li>{{message}}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+    <div>
+       
+      <strong>{% trans "Выберите:" %}</strong>
+      <ul>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'account_email' %}">{% trans "Сменить E-mail" %}</a></li>
+        <li><a href="{% url 'account_logout' %}">{% trans "Выйти" %}</a></li>
+        {% else %}
+        <li><a href="{% url 'account_login' %}">{% trans "Войти" %}</a></li>
+        <li><a href="{% url 'account_signup' %}">{% trans "Регистрация" %}</a></li>
+        {% endif %}
+      </ul>
+    </div>
+    {% block content %}
+    {% endblock %}
+    {% endblock %}
+    {% block extra_body %}
+    {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новый отклик</title>
+</head>
+<body>
+    <h2>Здравствуй, {{ respond.author.username }}!</h2>
+    Принят ваш отклик на объявление <a href="{{ site_url }}{{ respond.advert.id }}">{{ respond.advert.title }}</a>.
+    <p> Ваш отклик: </p>
+    <p> {{ respond.text }} </p>
+</body>
+</html>

@@ -1,0 +1,63 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+<!-- {% block head_title %}{% trans "Вход" %}{% endblock %} -->
+
+
+{% block page_heading %}
+ВХОД
+{% endblock page_heading %}
+
+{% block page_subheading %}
+Пожалуйста, зайдите на сайт
+{% endblock page_subheading %}
+
+{% block page_level %}
+post-heading
+{% endblock page_level %}
+
+{% block content %}
+
+{% get_providers as socialaccount_providers %}
+
+{% if socialaccount_providers %}
+
+<h1>{% trans "Пожалуйста, зайдите на сайт, используя ваш аккаунт" %}</h1>
+ 
+<p>{% blocktrans with site.name as site_name %}Или, <a href="{{ signup_url }}">зарегистрируйтесь</a>
+на {{ site_name }} и войдите:{% endblocktrans %}</p>
+
+<!-- <div class="socialaccount_ballot">
+
+  <ul class="socialaccount_providers">
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+  </ul>
+
+  <div class="login-or">{% trans 'or' %}</div>
+
+</div> -->
+
+{% include "socialaccount/snippets/login_extra.html" %}
+
+{% else %}
+
+<h1>{% trans "Пожалуйста, введите ваши логин и пароль" %}</h1>
+ 
+<p>{% blocktrans %}Если у вас еще нет аккаунта, пожалуйста, сначала 
+<a href="{{ signup_url }}">зарегистрируйтесь</a>.{% endblocktrans %}</p>
+{% endif %}
+
+<form class="login" method="POST" action="{% url 'account_login' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button class="btn btn-primary text-uppercase" class="primaryAction" type="submit">{% trans "Войти" %}</button>
+  <hr class="my-4" />
+  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Забыли пароль?" %}</a>
+</form>
+
+{% endblock %}
